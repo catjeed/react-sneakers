@@ -16,14 +16,19 @@ function App() {
       .then((res) => {
         setItems(res.data);
       });
+    axios
+      .get('https://655545c663cafc694fe79d60.mockapi.io/cart')
+      .then((res) => {
+        setCartItems(res.data);
+      });
   }, []);
 
   const onAddToCart = (obj) => {
+    axios.post('https://655545c663cafc694fe79d60.mockapi.io/cart', obj);
     setCartItems((prev) => [...prev, obj]);
   };
 
   const onChangeSearchInput = (event) => {
-    console.log(event.target.value);
     setSearchValue(event.target.value);
   };
 

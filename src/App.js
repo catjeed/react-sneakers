@@ -1,4 +1,5 @@
 import React from 'react';
+import Route from 'react-router-dom'
 import Card from './components/Card';
 import Drawer from './components/Drawer';
 import Header from './components/Header';
@@ -12,36 +13,31 @@ function App() {
   const [cartOpened, setCartOpened] = React.useState(false);
 
   React.useEffect(() => {
-    axios
-      .get('https://655545c663cafc694fe79d60.mockapi.io/items')
-      .then((res) => {
-        setItems(res.data);
-      });
-    axios
-      .get('https://655545c663cafc694fe79d60.mockapi.io/cart')
-      .then((res) => {
-        setCartItems(res.data);
-      });
+    axios.get('http://localhost:3001/items').then((res) => {
+      setItems(res.data);
+    });
+    axios.get('http://localhost:3001/cart').then((res) => {
+      setCartItems(res.data);
+    });
   }, []);
 
   const onAddToCart = (obj) => {
     axios
-      .post(`https://655545c663cafc694fe79d60.mockapi.io/cart`, obj)
+      .post('http://localhost:3001/cart', obj)
       .catch((err) => console.log(err));
     setCartItems((prev) => [...prev, obj]);
   };
 
-  const onAddFavorite = (obj) => { //не хватило место в mockApi
+  const onAddFavorite = (obj) => {
     axios
-      .post(`https://655545c663cafc694fe79d60.mockapi.io/favorites`, obj)
+      .post('http://localhost:3001/favorites', obj)
       .catch((err) => console.log(err));
     setFavorites((prev) => [...prev, obj]);
   };
 
-
   const onRemoveItem = (id) => {
     axios
-      .delete(`https://655545c663cafc694fe79d60.mockapi.io/cart/${id}`)
+      .delete(`http://localhost:3001/cart/${id}`)
       .catch((err) => console.log(err));
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };

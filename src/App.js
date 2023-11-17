@@ -24,8 +24,13 @@ function App() {
   }, []);
 
   const onAddToCart = (obj) => {
-    axios.post('https://655545c663cafc694fe79d60.mockapi.io/cart', obj);
+    axios.post(`https://655545c663cafc694fe79d60.mockapi.io/cart`, obj);
     setCartItems((prev) => [...prev, obj]);
+  };
+
+  const onRemoveItem = (id) => {
+    axios.delete(`https://655545c663cafc694fe79d60.mockapi.io/cart/${id}`);
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
   const onChangeSearchInput = (event) => {
@@ -35,7 +40,11 @@ function App() {
   return (
     <div className='wrapper clear'>
       {cartOpened && (
-        <Drawer items={cartItems} onClose={() => setCartOpened(false)} />
+        <Drawer
+          items={cartItems}
+          onRemove={onRemoveItem}
+          onClose={() => setCartOpened(false)}
+        />
       )}
       <div className='container'>
         <Header onCartClick={() => setCartOpened(true)} />

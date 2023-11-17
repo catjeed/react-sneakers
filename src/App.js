@@ -7,6 +7,7 @@ import axios from 'axios';
 function App() {
   const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
+  const [favorites, setFavorites] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const [cartOpened, setCartOpened] = React.useState(false);
 
@@ -24,12 +25,24 @@ function App() {
   }, []);
 
   const onAddToCart = (obj) => {
-    axios.post(`https://655545c663cafc694fe79d60.mockapi.io/cart`, obj);
+    axios
+      .post(`https://655545c663cafc694fe79d60.mockapi.io/cart`, obj)
+      .catch((err) => console.log(err));
     setCartItems((prev) => [...prev, obj]);
   };
 
+  const onAddFavorite = (obj) => { //не хватило место в mockApi
+    axios
+      .post(`https://655545c663cafc694fe79d60.mockapi.io/favorites`, obj)
+      .catch((err) => console.log(err));
+    setFavorites((prev) => [...prev, obj]);
+  };
+
+
   const onRemoveItem = (id) => {
-    axios.delete(`https://655545c663cafc694fe79d60.mockapi.io/cart/${id}`);
+    axios
+      .delete(`https://655545c663cafc694fe79d60.mockapi.io/cart/${id}`)
+      .catch((err) => console.log(err));
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
@@ -82,12 +95,12 @@ function App() {
               .filter((item) => item.title.toLowerCase().includes(searchValue))
               .map((item, index) => (
                 <Card
-                  key={index}
+                  key={index + 1}
                   title={item.title}
                   price={item.price}
                   imageUrl={item.imageUrl}
                   onPlus={(obj) => onAddToCart(obj)}
-                  onFavorite={() => console.log('кликнул на сердце')}
+                  onFavorite={(obj) => onAddFavorite(obj)}
                 />
               ))}
           </div>

@@ -22,8 +22,8 @@ function Drawer({ onClose, onRemove, items = [] }) {
         {items.length > 0 ? (
           <div className='cartWithItems d-flex flex-column flex'>
             <div className={styles.items}>
-              {items.map((obj) => (
-                <div className={styles.cartItem}>
+              {items.map((obj, index) => (
+                <div key={index} className={styles.cartItem}>
                   <img
                     className='m-20'
                     src={obj.imageUrl}
@@ -79,7 +79,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
               Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.
             </p>
             <button onClick={onClose} className={styles.greenButton}>
-            <img className='arrow' src='./images/arrow.svg' alt='arrow' />
+              <img className='arrow' src='./images/arrow.svg' alt='arrow' />
               Вернуться назад
             </button>
           </div>

@@ -66,7 +66,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
             </div>
           </div>
         ) : (
-          <div className={styles.cartEmpty}>
+          <div className={styles.empty}>
             <img
               className='mb-20'
               width={120}

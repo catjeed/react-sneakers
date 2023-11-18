@@ -1,9 +1,10 @@
 import React from 'react';
-import Route from 'react-router-dom'
-import Card from './components/Card';
+import { Routes, Route } from 'react-router-dom';
 import Drawer from './components/Drawer';
 import Header from './components/Header';
 import axios from 'axios';
+import Home from './components/pages/Home';
+import Favorites from './components/pages/Favorites';
 
 function App() {
   const [items, setItems] = React.useState([]);
@@ -19,33 +20,46 @@ function App() {
     axios.get('http://localhost:3001/cart').then((res) => {
       setCartItems(res.data);
     });
+    axios.get('http://localhost:3001/favorites').then((res) => {
+      setFavorites(res.data);
+    });
   }, []);
-
   const onAddToCart = (obj) => {
-    axios
-      .post('http://localhost:3001/cart', obj)
-      .catch((err) => console.log(err));
-    setCartItems((prev) => [...prev, obj]);
+    if (cartItems.find((cartObj) => cartObj.id === obj.id)) {
+      axios.delete(`http://localhost:3001/cart/${obj.id}`);
+      setCartItems((prev) => prev.filter((item) => item.id !== obj.id));
+    } else {
+      axios
+        .post('http://localhost:3001/cart', obj)
+        .catch((err) => console.log(err));
+      setCartItems((prev) => [...prev, obj]);
+    }
   };
-
-  const onAddFavorite = (obj) => {
-    axios
-      .post('http://localhost:3001/favorites', obj)
-      .catch((err) => console.log(err));
-    setFavorites((prev) => [...prev, obj]);
+  const onAddFavorite = async (obj) => {
+    try {
+      if (favorites.find((favObj) => favObj.id === obj.id)) {
+        axios.delete(`http://localhost:3001/favorites/${obj.id}`);
+        setFavorites((prev) => prev.filter((item) => item.id !== obj.id));
+      } else {
+        const { data } = await axios.post(
+          'http://localhost:3001/favorites',
+          obj
+        );
+        setFavorites((prev) => [...prev, data]);
+      }
+    } catch (error) {
+      console.log('Не удалось добавить в закладки', error);
+    }
   };
-
   const onRemoveItem = (id) => {
     axios
       .delete(`http://localhost:3001/cart/${id}`)
       .catch((err) => console.log(err));
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
-
   const onChangeSearchInput = (event) => {
     setSearchValue(event.target.value);
   };
-
   return (
     <div className='wrapper clear'>
       {cartOpened && (
@@ -57,50 +71,27 @@ function App() {
       )}
       <div className='container'>
         <Header onCartClick={() => setCartOpened(true)} />
-        <div className='content p-40'>
-          <div className='title-search d-flex justify-between mb-30'>
-            <h1>
-              {searchValue
-                ? `Поиск по запросу: "${searchValue}"`
-                : 'Все кроссовки'}
-            </h1>
-            <div className='search-block'>
-              <img src='../images/search.svg' alt='search' className='pl-10' />
-              <input
-                onChange={onChangeSearchInput}
-                type='text'
-                placeholder='Поиск...'
-                value={searchValue}
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <Home
+                searchValue={searchValue}
+                onChangeSearchInput={onChangeSearchInput}
+                setSearchValue={setSearchValue}
+                items={items}
+                onAddToCart={onAddToCart}
+                onAddFavorite={onAddFavorite}
               />
-              {searchValue && (
-                <img
-                  onClick={() => {
-                    setSearchValue('');
-                  }}
-                  className='clearBtn removeBtn'
-                  width={20}
-                  height={20}
-                  src='../images/close.svg'
-                  alt='clear'
-                />
-              )}
-            </div>
-          </div>
-          <div className='cards'>
-            {items
-              .filter((item) => item.title.toLowerCase().includes(searchValue))
-              .map((item, index) => (
-                <Card
-                  key={index + 1}
-                  title={item.title}
-                  price={item.price}
-                  imageUrl={item.imageUrl}
-                  onPlus={(obj) => onAddToCart(obj)}
-                  onFavorite={(obj) => onAddFavorite(obj)}
-                />
-              ))}
-          </div>
-        </div>
+            }
+          />
+          <Route
+            path='/favorites'
+            element={
+              <Favorites items={favorites} onAddFavorite={onAddFavorite} />
+            }
+          />
+        </Routes>
       </div>
     </div>
   );

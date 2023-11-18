@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Header(props) {
   return (
     <header className='d-flex justify-between align-center p-40'>
-      <Link to='/'>
+      <Link  to='/'>
         <div className='d-flex align-center'>
           <img
             width={40}
@@ -15,7 +15,7 @@ function Header(props) {
           />
           <div className='headerInfo'>
             <h3 className='text-uppercase'>React Sneakers</h3>
-            <p className='opacity-5'>Магазин лучших кроссовок</p>
+            <p className='opacity-5'>Магазин уникальных кроссовок</p>
           </div>
         </div>
       </Link>

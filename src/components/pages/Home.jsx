@@ -5,6 +5,7 @@ function Home({
   onChangeSearchInput,
   setSearchValue,
   items,
+  cartItems,
   onAddToCart,
   onAddFavorite,
 }) {
@@ -44,6 +45,7 @@ function Home({
               key={index}
               onPlus={(obj) => onAddToCart(obj)}
               onFavorite={(obj) => onAddFavorite(obj)}
+              added={cartItems.some(obj => Number(obj.id) === Number(item.id))}
               {...item}
             />
           ))}

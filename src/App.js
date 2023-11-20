@@ -14,38 +14,42 @@ function App() {
   const [cartOpened, setCartOpened] = React.useState(false);
 
   React.useEffect(() => {
-    axios.get('http://localhost:3001/items').then((res) => {
-      setItems(res.data);
-    });
-    axios.get('http://localhost:3001/cart').then((res) => {
-      setCartItems(res.data);
-    });
-    axios.get('http://localhost:3001/favorites').then((res) => {
-      setFavorites(res.data);
-    });
+    async function fetchData() {
+      const itemsResponse = await axios.get('http://localhost:3001/items');
+      const cartResponse = await axios.get('http://localhost:3001/cart');
+      const favoritesResponse = await axios.get('http://localhost:3001/favorites');
+
+      setItems(itemsResponse.data);
+      setCartItems(cartResponse.data);
+      setFavorites(favoritesResponse.data);
+    }
+
+    fetchData();
   }, []);
 
   const onAddToCart = (obj) => {
     try {
-      if (cartItems.find((cartObj) => cartObj.id === obj.id)) {
+      if (cartItems.find((cartObj) => Number(cartObj.id) === Number(obj.id))) {
         axios.delete(`http://localhost:3001/cart/${obj.id}`);
-        setCartItems((prev) => prev.filter((item) => item.id !== obj.id));
+        setCartItems((prev) =>
+          prev.filter((item) => Number(item.id) !== Number(obj.id))
+        );
       } else {
         axios
           .post('http://localhost:3001/cart', obj)
           .catch((err) => console.log(err));
         setCartItems((prev) => [...prev, obj]);
       }
-    } catch(error) {
-      console.log('Не удалось добавить в корзину', error)
+    } catch (error) {
+      console.log('Не удалось добавить в корзину', error);
     }
   };
 
   const onAddFavorite = async (obj) => {
     try {
       if (favorites.find((favObj) => favObj.id === obj.id)) {
-        setFavorites((prev) => prev.filter((item) => item.id !== obj.id));
         axios.delete(`http://localhost:3001/favorites/${obj.id}`);
+        setFavorites((prev) => prev.filter((item) => item.id !== obj.id));
       } else {
         const { data } = await axios.post(
           'http://localhost:3001/favorites',
@@ -87,6 +91,7 @@ function App() {
                 onChangeSearchInput={onChangeSearchInput}
                 setSearchValue={setSearchValue}
                 items={items}
+                cartItems={cartItems}
                 onAddToCart={onAddToCart}
                 onAddFavorite={onAddFavorite}
               />

@@ -11,9 +11,9 @@ function Favorites({ items, onClose, onAddFavorite }) {
       </div>
       {items.length > 0 ? (
         <div className='cards'>
-          {items.map((item, index) => (
+          {items.map((item) => (
             <Card
-              key={index}
+              key={item.id}
               favorited={true}
               onFavorite={onAddFavorite}
               {...item}

@@ -24,22 +24,28 @@ function App() {
       setFavorites(res.data);
     });
   }, []);
+
   const onAddToCart = (obj) => {
-    if (cartItems.find((cartObj) => cartObj.id === obj.id)) {
-      axios.delete(`http://localhost:3001/cart/${obj.id}`);
-      setCartItems((prev) => prev.filter((item) => item.id !== obj.id));
-    } else {
-      axios
-        .post('http://localhost:3001/cart', obj)
-        .catch((err) => console.log(err));
-      setCartItems((prev) => [...prev, obj]);
+    try {
+      if (cartItems.find((cartObj) => cartObj.id === obj.id)) {
+        axios.delete(`http://localhost:3001/cart/${obj.id}`);
+        setCartItems((prev) => prev.filter((item) => item.id !== obj.id));
+      } else {
+        axios
+          .post('http://localhost:3001/cart', obj)
+          .catch((err) => console.log(err));
+        setCartItems((prev) => [...prev, obj]);
+      }
+    } catch(error) {
+      console.log('Не удалось добавить в корзину', error)
     }
   };
+
   const onAddFavorite = async (obj) => {
     try {
       if (favorites.find((favObj) => favObj.id === obj.id)) {
-        axios.delete(`http://localhost:3001/favorites/${obj.id}`);
         setFavorites((prev) => prev.filter((item) => item.id !== obj.id));
+        axios.delete(`http://localhost:3001/favorites/${obj.id}`);
       } else {
         const { data } = await axios.post(
           'http://localhost:3001/favorites',
@@ -51,6 +57,7 @@ function App() {
       console.log('Не удалось добавить в закладки', error);
     }
   };
+
   const onRemoveItem = (id) => {
     axios
       .delete(`http://localhost:3001/cart/${id}`)

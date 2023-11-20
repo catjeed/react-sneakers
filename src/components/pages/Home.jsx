@@ -6,14 +6,34 @@ function Home({
   setSearchValue,
   items,
   cartItems,
+  favorites,
   onAddToCart,
   onAddFavorite,
+  isLoading,
 }) {
+  const renderItems = () => {
+    const filtredItems = items.filter((item) =>
+      item.title.toLowerCase().includes(searchValue)
+    );
+    return (isLoading ? [...Array(8)] : filtredItems).map((item, index) => (
+      <Card
+        key={index}
+        onPlus={(obj) => onAddToCart(obj)} // добавить в корзину
+        onFavorite={(obj) => onAddFavorite(obj)} // добавить в закладки
+        added={cartItems.some((obj) => Number(obj.id) === Number(item.id))} //проверяет наличие в корзине и ставит плюс (если есть)
+        favorited={favorites.some((obj) => Number(obj.id) === Number(item.id))} //проверяет наличие в закладках и ставит лайк (если есть)
+        loading={isLoading}
+        {...item}
+      />
+    ));
+  };
+
   return (
     <div className='content p-40'>
       <div className='title-search d-flex justify-between mb-30'>
         <h1>
-          {searchValue ? `Поиск по запросу: "${searchValue}"` : 'Все кроссовки'}
+          {searchValue ? `Поиск по запросу: "${searchValue}"` : 'Все кроссовки'}{' '}
+          {/* Меняет заголовк в зависимости от запроса в поиске  */}
         </h1>
         <div className='search-block'>
           <img src='../images/search.svg' alt='search' className='pl-10' />
@@ -37,19 +57,7 @@ function Home({
           )}
         </div>
       </div>
-      <div className='cards'>
-        {items
-          .filter((item) => item.title.toLowerCase().includes(searchValue))
-          .map((item, index) => (
-            <Card
-              key={index}
-              onPlus={(obj) => onAddToCart(obj)}
-              onFavorite={(obj) => onAddFavorite(obj)}
-              added={cartItems.some(obj => Number(obj.id) === Number(item.id))}
-              {...item}
-            />
-          ))}
-      </div>
+      <div className='cards'>{renderItems()}</div>
     </div>
   );
 }

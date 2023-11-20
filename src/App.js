@@ -12,12 +12,18 @@ function App() {
   const [favorites, setFavorites] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const [cartOpened, setCartOpened] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
+    // дает время на загрузку корзины/закладок, чтобы изменить состояние кнопок при наличии
     async function fetchData() {
       const itemsResponse = await axios.get('http://localhost:3001/items');
       const cartResponse = await axios.get('http://localhost:3001/cart');
-      const favoritesResponse = await axios.get('http://localhost:3001/favorites');
+      const favoritesResponse = await axios.get(
+        'http://localhost:3001/favorites'
+      );
+
+      setIsLoading(false);
 
       setItems(itemsResponse.data);
       setCartItems(cartResponse.data);
@@ -29,16 +35,16 @@ function App() {
 
   const onAddToCart = (obj) => {
     try {
+      // проверяет наличие объекта в корзине
       if (cartItems.find((cartObj) => Number(cartObj.id) === Number(obj.id))) {
-        axios.delete(`http://localhost:3001/cart/${obj.id}`);
+        axios.delete(`http://localhost:3001/cart/${obj.id}`); // и удаляет (если нашел)
         setCartItems((prev) =>
           prev.filter((item) => Number(item.id) !== Number(obj.id))
         );
       } else {
-        axios
-          .post('http://localhost:3001/cart', obj)
-          .catch((err) => console.log(err));
-        setCartItems((prev) => [...prev, obj]);
+        //если не нашел совпадений по айди
+        axios.post('http://localhost:3001/cart', obj); //  добавляет в корзину
+        setCartItems((prev) => [...prev, obj]); // перед этим добавив предыдущие товары из массива
       }
     } catch (error) {
       console.log('Не удалось добавить в корзину', error);
@@ -92,8 +98,10 @@ function App() {
                 setSearchValue={setSearchValue}
                 items={items}
                 cartItems={cartItems}
+                favorites={favorites}
                 onAddToCart={onAddToCart}
                 onAddFavorite={onAddFavorite}
+                isLoading={isLoading}
               />
             }
           />

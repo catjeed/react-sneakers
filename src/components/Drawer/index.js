@@ -22,7 +22,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
         {items.length > 0 ? (
           <div className='cartWithItems d-flex flex-column flex'>
             <div className={styles.items}>
-              {items.map((obj, index) => (
+              {items.map((obj) => (
                 <div key={obj.id} className={styles.cartItem}>
                   <img
                     className='m-20'

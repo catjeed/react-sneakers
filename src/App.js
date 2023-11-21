@@ -96,7 +96,8 @@ function App() {
         onAddFavorite,
         isItemAdded,
         isItemLiked,
-        setCartOpened
+        setCartOpened,
+        setCartItems,
       }}
     >
       <div className='wrapper clear'>

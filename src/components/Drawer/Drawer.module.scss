@@ -77,6 +77,13 @@
     .greenButton {
       position: relative;
 
+
+      &:disabled {
+        background-color: #bebebe;
+        cursor: default;
+        animation: button-loading 0.7s ease-in-out infinite;
+      }
+
       &:hover {
         img {
           transform: translateX(5px);
@@ -173,5 +180,17 @@
     h2 {
       margin-top: 30px;
       margin-bottom: 11px;
+    }
+  }
+
+  @keyframes button-loading {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 1;
     }
   }

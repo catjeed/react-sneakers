@@ -24,26 +24,6 @@ function Favorites() {
           ))}
         </div>
       ) : (
-        // <div className={styles.emptyFavorites}>
-        //   <div className={styles.empty}>
-        //     <img
-        //     className={styles.sadFace}
-        //       width={70}
-        //       height={70}
-        //       src='../images/sadFace.png'
-        //       alt='грустный смайлик'
-        //     />
-        //     <h2>Закладок нет </h2>
-        //     <p>Вы ничего не добавляли в закладки</p>
-        //     <Link to='/'>
-        //       <button className={styles.greenButton}>
-        //         <img className='arrow' src='./images/arrow.svg' alt='arrow' />
-        //         Вернуться назад
-        //       </button>
-        //     </Link>
-        //   </div>
-        // </div>
-
         <Info 
         title={"Закладок нет"}
         description={"Вы ничего не добавляли в закладки"}

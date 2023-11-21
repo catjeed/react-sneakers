@@ -26,5 +26,7 @@
     }
   ],
   "cart": [],
-  "favorites": []
+  "favorites": [],
+  "orders": [
+  ]
 }

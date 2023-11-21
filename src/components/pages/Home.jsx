@@ -1,27 +1,28 @@
+import React from 'react';
 import Card from '../Card';
+import AppContext from '../../context';
 
 function Home({
   searchValue,
   onChangeSearchInput,
   setSearchValue,
   items,
-  cartItems,
-  favorites,
   onAddToCart,
   onAddFavorite,
   isLoading,
 }) {
+  const {isItemAdded, isItemLiked} = React.useContext(AppContext);
   const renderItems = () => {
     const filtredItems = items.filter((item) =>
       item.title.toLowerCase().includes(searchValue)
     );
-    return (isLoading ? [...Array(8)] : filtredItems).map((item, index) => (
+    return (isLoading ? [...Array(8)] : filtredItems).map((item, index) => ( //если идет загрузка с сервера, создает фейк массив, иначе отображает товар
       <Card
         key={index}
         onPlus={(obj) => onAddToCart(obj)} // добавить в корзину
         onFavorite={(obj) => onAddFavorite(obj)} // добавить в закладки
-        added={cartItems.some((obj) => Number(obj.id) === Number(item.id))} //проверяет наличие в корзине и ставит плюс (если есть)
-        favorited={favorites.some((obj) => Number(obj.id) === Number(item.id))} //проверяет наличие в закладках и ставит лайк (если есть)
+        added={isItemAdded(item && item.id)} //проверяет наличие в корзине и ставит плюс (если есть)
+        favorited={isItemLiked(item && item.id)} //проверяет наличие в закладках и ставит лайк (если есть)
         loading={isLoading}
         {...item}
       />

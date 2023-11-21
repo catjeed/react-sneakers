@@ -1,4 +1,5 @@
 import styles from './Drawer.module.scss';
+import Info from '../Info';
 
 function Drawer({ onClose, onRemove, items = [] }) {
   const handleOverlayClick = (evt) => {
@@ -66,23 +67,15 @@ function Drawer({ onClose, onRemove, items = [] }) {
             </div>
           </div>
         ) : (
-          <div className={styles.empty}>
-            <img
-              className='mb-20'
-              width={120}
-              height={120}
-              src='./images/empty-box.png'
-              alt='коробка'
-            />
-            <h2>Корзина пустая</h2>
-            <p className='mt-10 opacity-6 text-center'>
-              Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.
-            </p>
-            <button onClick={onClose} className={styles.greenButton}>
-              <img className='arrow' src='./images/arrow.svg' alt='arrow' />
-              Вернуться назад
-            </button>
-          </div>
+          <Info
+            title={'Корзина пустая'}
+            description={
+              'Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ'
+            }
+            ImageSize={120}
+            imageUrl={'./images/empty-box.png'}
+            imageAlt={'пустая коробка'}
+          />
         )}
       </div>
     </div>

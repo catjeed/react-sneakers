@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Card.module.scss';
 import ContentLoader from 'react-content-loader';
+import AppContext from '../../context';
 
 function Card({
   id,
@@ -9,21 +10,18 @@ function Card({
   imageUrl,
   onPlus,
   onFavorite,
-  favorited = false,
-  added = false,
   loading = false,
 }) {
-  const [isAdded, setIsAdded] = React.useState(added);
-  const [isFavorite, setIsFavorite] = React.useState(favorited);
+  const { isItemAdded, isItemLiked } = React.useContext(AppContext);
+  // const [isAdded, setIsAdded] = React.useState(added);
+  // const [isFavorite, setIsFavorite] = React.useState(favorited);
 
   const handleCLickPlus = () => {
     onPlus({ id, title, price, imageUrl });
-    setIsAdded(!isAdded);
   };
 
   const handleCLickFavorite = () => {
     onFavorite({ id, title, price, imageUrl });
-    setIsFavorite(!isFavorite);
   };
 
   return (
@@ -49,7 +47,7 @@ function Card({
             className='button favorite'
             onClick={handleCLickFavorite}
             src={
-              isFavorite
+              isItemLiked(id)
                 ? '../images/pink-heart.svg'
                 : '../images/white-heart.svg'
             }
@@ -69,7 +67,7 @@ function Card({
               width={32}
               height={32}
               onClick={handleCLickPlus}
-              src={isAdded ? '../images/green-check.svg' : '../images/plus.svg'}
+              src={isItemAdded(id) ? '../images/green-check.svg' : '../images/plus.svg'}
               alt='plus'
             />
           </div>

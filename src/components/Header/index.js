@@ -8,7 +8,7 @@ function Header(props) {
 
   return (
     <header className={styles.header}>
-      <Link to="/">
+      <Link to="/react-sneakers/">
         <div className="d-flex align-center">
           <img
             width={40}
@@ -34,7 +34,7 @@ function Header(props) {
           />
           <span>{totalPrice} руб.</span>
         </li>
-        <Link to="/favorites">
+        <Link to="/react-sneakers/favorites">
           <li className="mr-30 d-flex align-center">
             <img
               src="/react-sneakers/images/heart.svg"
@@ -44,7 +44,7 @@ function Header(props) {
             <span>Закладки</span>
           </li>
         </Link>
-        <Link to="/orders">
+        <Link to="/react-sneakers/orders">
           <li className="mr-30 d-flex align-center">
             <img
               src="/react-sneakers/images/user.svg"

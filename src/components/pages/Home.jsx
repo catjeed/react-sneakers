@@ -42,7 +42,11 @@ function Home({
           {/* Меняет заголовк в зависимости от запроса в поиске  */}
         </h1>
         <div className='search-block'>
-          <img src='images/search.svg' alt='search' className='pl-10' />
+          <img
+            src='/react-sneakers/images/search.svg'
+            alt='search'
+            className='pl-10'
+          />
           <input
             onChange={onChangeSearchInput}
             type='text'
@@ -57,7 +61,7 @@ function Home({
               className='clearBtn removeBtn'
               width={20}
               height={20}
-              src='images/close.svg'
+              src='/react-sneakers/images/close.svg'
               alt='clear'
             />
           )}

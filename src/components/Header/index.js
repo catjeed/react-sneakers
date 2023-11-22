@@ -14,7 +14,7 @@ function Header(props) {
             width={40}
             height={40}
             className='mr-10'
-            src='images/logo.svg'
+            src='/react-sneakers/images/logo.svg'
             alt='logo'
           />
           <div className='headerInfo'>
@@ -29,20 +29,28 @@ function Header(props) {
             height={18}
             width={18}
             className='mr-10'
-            src='images/cart.svg'
+            src='/react-sneakers/images/cart.svg'
             alt='cart'
           />
           <span>{totalPrice} руб.</span>
         </li>
         <Link to='favorites'>
           <li className='mr-30 d-flex align-center'>
-            <img src='images/heart.svg' alt='user' className='mr-10' />
+            <img
+              src='/react-sneakers/images/heart.svg'
+              alt='user'
+              className='mr-10'
+            />
             <span>Закладки</span>
           </li>
         </Link>
         <Link to='profile'>
           <li className='mr-30 d-flex align-center'>
-            <img src='images/user.svg' alt='user' className='mr-10' />
+            <img
+              src='/react-sneakers/images/user.svg'
+              alt='user'
+              className='mr-10'
+            />
             <span>Профиль</span>
           </li>
         </Link>

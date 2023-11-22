@@ -28,7 +28,7 @@ function Favorites() {
         <Info
           title={'Закладок нет'}
           description={'Вы ничего не добавляли в закладки'}
-          imageUrl={'images/sadFace.png'}
+          imageUrl={'/react-sneakers/images/sadFace.png'}
           imageAlt={'грустный смайлик'}
           imageSize={70}
         />

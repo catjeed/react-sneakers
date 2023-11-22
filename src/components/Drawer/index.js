@@ -49,7 +49,7 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
             className='removeBtn'
             width={32}
             height={32}
-            src='images/close.svg'
+            src='/react-sneakers/images/close.svg'
             alt='close'
           />
         </h2>
@@ -74,7 +74,7 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
                       onClick={() => onRemove(obj.id)}
                       width={32}
                       height={32}
-                      src='images/close.svg'
+                      src='/react-sneakers/images/close.svg'
                       alt='remove'
                     />
                   </button>
@@ -99,7 +99,8 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
                 onClick={onClickOrder}
                 className='greenButton'
               >
-                Оформить заказ <img src='images/arrow.svg' alt='arrow' />
+                Оформить заказ{' '}
+                <img src='/react-sneakers/images/arrow.svg' alt='arrow' />
               </button>
             </div>
           </div>
@@ -113,7 +114,9 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
             }
             imageSize={120}
             imageUrl={
-              isOrderComplete ? 'images/order.png' : 'images/empty-box.png'
+              isOrderComplete
+                ? '/react-sneakers/images/order.png'
+                : '/react-sneakers/images/empty-box.png'
             }
             imageAlt={isOrderComplete ? 'заказ оформлен' : 'пустая коробка'}
           />

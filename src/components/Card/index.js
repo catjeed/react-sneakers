@@ -36,8 +36,8 @@ function Card({
               onClick={handleCLickFavorite}
               src={
                 isItemLiked(id)
-                  ? 'images/pink-heart.svg'
-                  : 'images/white-heart.svg'
+                  ? '/react-sneakers/images/pink-heart.svg'
+                  : '/react-sneakers/images/white-heart.svg'
               }
               alt='favorite'
               width={32}
@@ -58,7 +58,9 @@ function Card({
                 height={32}
                 onClick={handleCLickPlus}
                 src={
-                  isItemAdded(id) ? 'images/green-check.svg' : 'images/plus.svg'
+                  isItemAdded(id)
+                    ? '/react-sneakers/images/green-check.svg'
+                    : '/react-sneakers/images/plus.svg'
                 }
                 alt='plus'
               />

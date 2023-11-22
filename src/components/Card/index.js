@@ -5,6 +5,7 @@ import { CardLoader } from '../CardLoader';
 
 function Card({
   id,
+  parentId,
   title,
   price,
   imageUrl,
@@ -13,7 +14,7 @@ function Card({
   loading = false,
 }) {
   const { isItemAdded, isItemLiked } = React.useContext(AppContext);
-  const itemObj = { id, title, price, imageUrl };
+  const itemObj = { id, parentId: id, title, price, imageUrl };
 
   const handleCLickPlus = () => {
     onPlus(itemObj);

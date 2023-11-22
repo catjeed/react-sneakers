@@ -3,6 +3,8 @@ import Info from '../Info';
 import Card from '../Card';
 import axios from 'axios';
 
+const favoritesAndOrdersApi = 'https://655e0fb09f1e1093c59a71b9.mockapi.io';
+
 function Profile() {
   const [orders, setOrders] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -10,7 +12,7 @@ function Profile() {
   React.useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get('http://localhost:3001/orders');
+        const { data } = await axios.get(`${favoritesAndOrdersApi}/orders`);
         setOrders(data.reduce((prev, obj) => [...prev, ...obj.items], []));
         setIsLoading(false);
       } catch (error) {

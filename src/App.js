@@ -8,6 +8,9 @@ import Favorites from './components/pages/Favorites';
 import AppContext from './context';
 import Profile from './components/pages/Orders';
 
+const itemsAndCartApi = 'https://655545c663cafc694fe79d60.mockapi.io';
+const favoritesAndOrdersApi = 'https://655e0fb09f1e1093c59a71b9.mockapi.io';
+
 function App() {
   const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
@@ -22,9 +25,9 @@ function App() {
       try {
         const [cartResponse, favoritesResponse, itemsResponse] =
           await Promise.all([
-            axios.get('http://localhost:3001/react-sneakers/cart'),
-            axios.get('http://localhost:3001/react-sneakers/favorites'),
-            axios.get('http://localhost:3001/react-sneakers/items'),
+            axios.get(`${itemsAndCartApi}/cart`),
+            axios.get(`${favoritesAndOrdersApi}/favorites`),
+            axios.get(`${itemsAndCartApi}/items`),
           ]);
 
         setIsLoading(false);
@@ -39,18 +42,30 @@ function App() {
     fetchData();
   }, []);
 
-  const onAddToCart = (obj) => {
+  const onAddToCart = async (obj) => {
     try {
-      // проверяет наличие объекта в корзине
-      if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+      const findItem = cartItems.find(
+        (item) => Number(item.parentId) === Number(obj.id)
+      ); // проверяет наличие объекта в корзине
+      if (findItem) {
         setCartItems((prev) =>
-          prev.filter((item) => Number(item.id) !== Number(obj.id))
+          prev.filter((item) => Number(item.parentId) !== Number(obj.id))
         );
-        axios.delete(`http://localhost:3001/react-sneakers/cart/${obj.id}`); // отправляет запрос на удаление (если нашел)
+        await axios.delete(`${itemsAndCartApi}/cart/${findItem.id}`); // отправляет запрос на удаление (если нашел)
       } else {
-        //если не нашел совпадений по айди
-        axios.post('http://localhost:3001/react-sneakers/cart', obj); //  добавляет в корзину
-        setCartItems((prev) => [...prev, obj]); // перед этим добавив предыдущие товары из массива
+        setCartItems((prev) => [...prev, obj]);
+        const { data } = await axios.post(`${itemsAndCartApi}/cart`, obj);
+        setCartItems((prev) =>
+          prev.map((item) => {
+            if (item.parentId === data.parentId) {
+              return {
+                ...item,
+                id: data.id,
+              };
+            }
+            return item;
+          })
+        );
       }
     } catch (error) {
       console.error('Не удалось добавить в корзину', error);
@@ -60,13 +75,11 @@ function App() {
   const onAddFavorite = async (obj) => {
     try {
       if (favorites.find((favObj) => Number(favObj.id) === Number(obj.id))) {
-        axios.delete(
-          `http://localhost:3001/react-sneakers/favorites/${obj.id}`
-        );
+        axios.delete(`${favoritesAndOrdersApi}/favorites/${obj.id}`);
         setFavorites((prev) => prev.filter((item) => item.id !== obj.id));
       } else {
         const { data } = await axios.post(
-          'http://localhost:3001/react-sneakers/favorites',
+          `${favoritesAndOrdersApi}/favorites`,
           obj
         );
         setFavorites((prev) => [...prev, data]);
@@ -79,9 +92,11 @@ function App() {
   const onRemoveItem = (id) => {
     try {
       axios
-        .delete(`http://localhost:3001/react-sneakers/cart/${id}`)
+        .delete(`${itemsAndCartApi}/cart/${id}`)
         .catch((err) => console.log(err));
-      setCartItems((prev) => prev.filter((item) => item.id !== id));
+      setCartItems((prev) =>
+        prev.filter((item) => Number(item.id) !== Number(id))
+      );
     } catch (error) {
       console.error('Не удалось удалить товар из корзины', error);
     }
@@ -92,7 +107,7 @@ function App() {
   };
 
   const isItemAdded = (id) => {
-    return cartItems.some((obj) => Number(obj.id) === Number(id));
+    return cartItems.some((obj) => Number(obj.parentId) === Number(id));
   };
 
   const isItemLiked = (id) => {

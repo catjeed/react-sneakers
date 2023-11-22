@@ -9,7 +9,7 @@ function Info({ title, description, imageUrl, imageAlt, imageSize }) {
       <h2>{title}</h2>
       <p className='mt-10 opacity-6 text-center'>{description}</p>
       <button onClick={() => setCartOpened(false)} className='greenButton'>
-        <img className='arrow' src='./images/arrow.svg' alt='arrow' />
+        <img className='arrow' src='images/arrow.svg' alt='arrow' />
         Вернуться назад
       </button>
     </div>

@@ -11,22 +11,27 @@ function Home({
   onAddFavorite,
   isLoading,
 }) {
-  const {isItemAdded, isItemLiked} = React.useContext(AppContext);
+  const { isItemAdded, isItemLiked } = React.useContext(AppContext);
   const renderItems = () => {
     const filtredItems = items.filter((item) =>
       item.title.toLowerCase().includes(searchValue)
     );
-    return (isLoading ? [...Array(8)] : filtredItems).map((item, index) => ( //если идет загрузка с сервера, создает фейк массив, иначе отображает товар
-      <Card
-        key={index}
-        onPlus={(obj) => onAddToCart(obj)} // добавить в корзину
-        onFavorite={(obj) => onAddFavorite(obj)} // добавить в закладки
-        added={isItemAdded(item && item.id)} //проверяет наличие в корзине и ставит плюс (если есть)
-        favorited={isItemLiked(item && item.id)} //проверяет наличие в закладках и ставит лайк (если есть)
-        loading={isLoading}
-        {...item}
-      />
-    ));
+    return (isLoading ? [...Array(8)] : filtredItems).map(
+      (
+        item,
+        index //если идет загрузка с сервера, создает фейк массив, иначе отображает товар
+      ) => (
+        <Card
+          key={index}
+          onPlus={(obj) => onAddToCart(obj)} // добавить в корзину
+          onFavorite={(obj) => onAddFavorite(obj)} // добавить в закладки
+          added={isItemAdded(item && item.id)} //проверяет наличие в корзине и ставит плюс (если есть)
+          favorited={isItemLiked(item && item.id)} //проверяет наличие в закладках и ставит лайк (если есть)
+          loading={isLoading}
+          {...item}
+        />
+      )
+    );
   };
 
   return (
@@ -37,7 +42,7 @@ function Home({
           {/* Меняет заголовк в зависимости от запроса в поиске  */}
         </h1>
         <div className='search-block'>
-          <img src='../images/search.svg' alt='search' className='pl-10' />
+          <img src='images/search.svg' alt='search' className='pl-10' />
           <input
             onChange={onChangeSearchInput}
             type='text'
@@ -52,7 +57,7 @@ function Home({
               className='clearBtn removeBtn'
               width={20}
               height={20}
-              src='../images/close.svg'
+              src='images/close.svg'
               alt='clear'
             />
           )}

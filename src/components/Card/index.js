@@ -35,8 +35,8 @@ function Card({
               onClick={handleCLickFavorite}
               src={
                 isItemLiked(id)
-                  ? '../images/pink-heart.svg'
-                  : '../images/white-heart.svg'
+                  ? 'images/pink-heart.svg'
+                  : 'images/white-heart.svg'
               }
               alt='favorite'
               width={32}
@@ -57,9 +57,7 @@ function Card({
                 height={32}
                 onClick={handleCLickPlus}
                 src={
-                  isItemAdded(id)
-                    ? '../images/green-check.svg'
-                    : '../images/plus.svg'
+                  isItemAdded(id) ? 'images/green-check.svg' : 'images/plus.svg'
                 }
                 alt='plus'
               />

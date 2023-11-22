@@ -4,7 +4,8 @@ import AppContext from '../../context';
 import Info from '../Info';
 
 function Favorites() {
-  const {favorites, onAddFavorite, onAddToCart} = React.useContext(AppContext);
+  const { favorites, onAddFavorite, onAddToCart } =
+    React.useContext(AppContext);
 
   return (
     <div className='content p-40'>
@@ -24,12 +25,12 @@ function Favorites() {
           ))}
         </div>
       ) : (
-        <Info 
-        title={"Закладок нет"}
-        description={"Вы ничего не добавляли в закладки"}
-        imageUrl={'../images/sadFace.png'}
-        imageAlt={'грустный смайлик'}
-        imageSize={70}
+        <Info
+          title={'Закладок нет'}
+          description={'Вы ничего не добавляли в закладки'}
+          imageUrl={'images/sadFace.png'}
+          imageAlt={'грустный смайлик'}
+          imageSize={70}
         />
       )}
     </div>

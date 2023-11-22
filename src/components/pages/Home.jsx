@@ -35,22 +35,22 @@ function Home({
   };
 
   return (
-    <div className='content p-40'>
-      <div className='title-search d-flex justify-between mb-30'>
+    <div className="content p-40">
+      <div className="title-search d-flex justify-between mb-30">
         <h1>
           {searchValue ? `Поиск по запросу: "${searchValue}"` : 'Все кроссовки'}{' '}
           {/* Меняет заголовк в зависимости от запроса в поиске  */}
         </h1>
-        <div className='search-block'>
+        <div className="search-block">
           <img
-            src='/react-sneakers/images/search.svg'
-            alt='search'
-            className='pl-10'
+            src="/react-sneakers/images/search.svg"
+            alt="search"
+            className="pl-10"
           />
           <input
             onChange={onChangeSearchInput}
-            type='text'
-            placeholder='Поиск...'
+            type="text"
+            placeholder="Поиск..."
             value={searchValue}
           />
           {searchValue && (
@@ -58,16 +58,16 @@ function Home({
               onClick={() => {
                 setSearchValue('');
               }}
-              className='clearBtn removeBtn'
+              className="clearBtn removeBtn"
               width={20}
               height={20}
-              src='/react-sneakers/images/close.svg'
-              alt='clear'
+              src="/react-sneakers/images/close.svg"
+              alt="clear"
             />
           )}
         </div>
       </div>
-      <div className='cards'>{renderItems()}</div>
+      <div className="cards">{renderItems()}</div>
     </div>
   );
 }

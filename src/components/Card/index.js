@@ -32,28 +32,28 @@ function Card({
         <>
           {onFavorite && (
             <img
-              className='button favorite'
+              className="button favorite"
               onClick={handleCLickFavorite}
               src={
                 isItemLiked(id)
                   ? '/react-sneakers/images/pink-heart.svg'
                   : '/react-sneakers/images/white-heart.svg'
               }
-              alt='favorite'
+              alt="favorite"
               width={32}
               height={32}
             />
           )}
-          <img src={imageUrl} alt={title} width='100%' height={135} />
+          <img src={imageUrl} alt={title} width="100%" height={135} />
           <h5>{title}</h5>
-          <div className='d-flex justify-between align-center'>
-            <div className='price d-flex flex-column'>
-              <span className='text-uppercase'>Цена:</span>
+          <div className="d-flex justify-between align-center">
+            <div className="price d-flex flex-column">
+              <span className="text-uppercase">Цена:</span>
               <b>{price} руб.</b>
             </div>
             {onPlus && (
               <img
-                className='button'
+                className="button"
                 width={32}
                 height={32}
                 onClick={handleCLickPlus}
@@ -62,7 +62,7 @@ function Card({
                     ? '/react-sneakers/images/green-check.svg'
                     : '/react-sneakers/images/plus.svg'
                 }
-                alt='plus'
+                alt="plus"
               />
             )}
           </div>

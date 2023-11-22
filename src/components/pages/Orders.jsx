@@ -3,16 +3,16 @@ import Info from '../Info';
 import Card from '../Card';
 import axios from 'axios';
 
-const favoritesAndOrdersApi = 'https://655e0fb09f1e1093c59a71b9.mockapi.io';
-
-function Profile() {
+function Orders() {
   const [orders, setOrders] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`${favoritesAndOrdersApi}/orders`);
+        const { data } = await axios.get(
+          'https://655e0fb09f1e1093c59a71b9.mockapi.io/orders'
+        );
         setOrders(data.reduce((prev, obj) => [...prev, ...obj.items], []));
         setIsLoading(false);
       } catch (error) {
@@ -22,11 +22,11 @@ function Profile() {
   }, []);
 
   return (
-    <div className='content p-40'>
-      <div className='title-search d-flex justify-between mb-30'>
+    <div className="content p-40">
+      <div className="title-search d-flex justify-between mb-30">
         <h1>Мои покупки</h1>
       </div>
-      <div className='cards'>
+      <div className="cards">
         {(isLoading ? [...Array(8)] : orders).map((item, index) => (
           <Card key={index} loading={isLoading} {...item} />
         ))}
@@ -35,4 +35,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Orders;

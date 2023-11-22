@@ -8,12 +8,12 @@ function Favorites() {
     React.useContext(AppContext);
 
   return (
-    <div className='content p-40'>
-      <div className='title-search d-flex justify-between mb-30'>
+    <div className="content p-40">
+      <div className="title-search d-flex justify-between mb-30">
         <h1>Мои закладки</h1>
       </div>
       {favorites.length > 0 ? (
-        <div className='cards'>
+        <div className="cards">
           {favorites.map((item) => (
             <Card
               key={item.id}

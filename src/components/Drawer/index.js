@@ -42,46 +42,46 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
       className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}
     >
       <div className={styles.drawer}>
-        <h2 className='title mb-30 d-flex justify-between '>
+        <h2 className="title mb-30 d-flex justify-between ">
           Корзина
           <img
             onClick={onClose}
-            className='removeBtn'
+            className="removeBtn"
             width={32}
             height={32}
-            src='/react-sneakers/images/close.svg'
-            alt='close'
+            src="/react-sneakers/images/close.svg"
+            alt="close"
           />
         </h2>
         {items.length > 0 ? (
-          <div className='cartWithItems d-flex flex-column flex'>
-            <div className='items'>
+          <div className="cartWithItems d-flex flex-column flex">
+            <div className="items">
               {items.map((obj) => (
-                <div key={obj.id} className='cartItem'>
+                <div key={obj.id} className="cartItem">
                   <img
-                    className='m-20'
+                    className="m-20"
                     src={obj.imageUrl}
                     alt={obj.title}
                     width={70}
                     height={70}
                   />
-                  <div className='cartItemInfo'>
+                  <div className="cartItemInfo">
                     <p>{obj.title}</p>
                     <b>{obj.price} руб.</b>
                   </div>
-                  <button className='removeBtn'>
+                  <button className="removeBtn">
                     <img
                       onClick={() => onRemove(obj.id)}
                       width={32}
                       height={32}
-                      src='/react-sneakers/images/close.svg'
-                      alt='remove'
+                      src="/react-sneakers/images/close.svg"
+                      alt="remove"
                     />
                   </button>
                 </div>
               ))}
             </div>
-            <div className='cartTotalBlock'>
+            <div className="cartTotalBlock">
               <ul>
                 <li>
                   <span>Итого:</span>
@@ -97,10 +97,10 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
               <button
                 disabled={isLoading}
                 onClick={onClickOrder}
-                className='greenButton'
+                className="greenButton"
               >
                 Оформить заказ{' '}
-                <img src='/react-sneakers/images/arrow.svg' alt='arrow' />
+                <img src="/react-sneakers/images/arrow.svg" alt="arrow" />
               </button>
             </div>
           </div>

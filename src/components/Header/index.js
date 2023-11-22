@@ -36,7 +36,7 @@ function Header(props) {
         </li>
         <Link to='favorites'>
           <li className='mr-30 d-flex align-center'>
-            <img src='../images/heart.svg' alt='user' className='mr-10' />
+            <img src='images/heart.svg' alt='user' className='mr-10' />
             <span>Закладки</span>
           </li>
         </Link>

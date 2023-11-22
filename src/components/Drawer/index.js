@@ -1,23 +1,17 @@
 import styles from './Drawer.module.scss';
 import Info from '../Info';
 import React from 'react';
-import AppContext from '../../context';
 import axios from 'axios';
+import { useCart } from '../../hooks/useCart';
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-function Drawer({ onClose, onRemove, items = [] }) {
+function Drawer({ onClose, onRemove, items = [], opened }) {
   //закрывает корзину при клике вне ее
   const handleOverlayClick = (evt) => {
     if (evt.target.classList.contains(styles.overlay)) onClose();
   };
-
-  const { cartItems, setCartItems } = React.useContext(AppContext);
-
+  const { cartItems, setCartItems, totalPrice } = useCart();
   const [isOrderComplete, setIsOrderComplete] = React.useState(false);
-
   const [orderId, setOrderId] = React.useState(null);
-
   const [isLoading, setIsLoading] = React.useState(false);
 
   const onClickOrder = async () => {
@@ -34,19 +28,22 @@ function Drawer({ onClose, onRemove, items = [] }) {
         setIsLoading(false);
       }
     } catch (error) {
-      console.log('Ошибка при создании заказа', error);
+      console.error('Ошибка при создании заказа', error);
     }
     setIsOrderComplete(true);
   };
 
   return (
-    <div onClick={handleOverlayClick} className={styles.overlay}>
+    <div
+      onClick={handleOverlayClick}
+      className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}
+    >
       <div className={styles.drawer}>
         <h2 className='title mb-30 d-flex justify-between '>
           Корзина
           <img
             onClick={onClose}
-            className={styles.removeBtn}
+            className='removeBtn'
             width={32}
             height={32}
             src='../images/close.svg'
@@ -55,9 +52,9 @@ function Drawer({ onClose, onRemove, items = [] }) {
         </h2>
         {items.length > 0 ? (
           <div className='cartWithItems d-flex flex-column flex'>
-            <div className={styles.items}>
+            <div className='items'>
               {items.map((obj) => (
-                <div key={obj.id} className={styles.cartItem}>
+                <div key={obj.id} className='cartItem'>
                   <img
                     className='m-20'
                     src={obj.imageUrl}
@@ -65,11 +62,11 @@ function Drawer({ onClose, onRemove, items = [] }) {
                     width={70}
                     height={70}
                   />
-                  <div className={styles.cartItemInfo}>
+                  <div className='cartItemInfo'>
                     <p>{obj.title}</p>
                     <b>{obj.price} руб.</b>
                   </div>
-                  <button className={styles.removeBtn}>
+                  <button className='removeBtn'>
                     <img
                       onClick={() => onRemove(obj.id)}
                       width={32}
@@ -81,23 +78,23 @@ function Drawer({ onClose, onRemove, items = [] }) {
                 </div>
               ))}
             </div>
-            <div className={styles.cartTotalBlock}>
+            <div className='cartTotalBlock'>
               <ul>
                 <li>
                   <span>Итого:</span>
                   <div></div>
-                  <b>21 498 руб.</b>
+                  <b>{totalPrice} руб.</b>
                 </li>
                 <li>
                   <span>Налог 5%:</span>
                   <div></div>
-                  <b>1074 руб.</b>
+                  <b>{Math.round(totalPrice * 0.05)} руб.</b>
                 </li>
               </ul>
               <button
                 disabled={isLoading}
                 onClick={onClickOrder}
-                className={styles.greenButton}
+                className='greenButton'
               >
                 Оформить заказ <img src='./images/arrow.svg' alt='arrow' />
               </button>

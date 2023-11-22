@@ -6,6 +6,7 @@ import axios from 'axios';
 import Home from './components/pages/Home';
 import Favorites from './components/pages/Favorites';
 import AppContext from './context';
+import Profile from './components/pages/Orders';
 
 function App() {
   const [items, setItems] = React.useState([]);
@@ -18,15 +19,21 @@ function App() {
   React.useEffect(() => {
     // дает время на загрузку корзины/закладок, чтобы изменить состояние кнопок при наличии
     async function fetchData() {
-      const cartResponse = await axios.get('http://localhost:3001/cart');
-      const favoritesResponse = await axios.get(
-        'http://localhost:3001/favorites'
-      );
-      const itemsResponse = await axios.get('http://localhost:3001/items');
-      setIsLoading(false);
-      setFavorites(favoritesResponse.data);
-      setCartItems(cartResponse.data);
-      setItems(itemsResponse.data);
+      try {
+        const [cartResponse, favoritesResponse, itemsResponse] =
+          await Promise.all([
+            axios.get('http://localhost:3001/cart'),
+            axios.get('http://localhost:3001/favorites'),
+            axios.get('http://localhost:3001/items'),
+          ]);
+
+        setIsLoading(false);
+        setFavorites(favoritesResponse.data);
+        setCartItems(cartResponse.data);
+        setItems(itemsResponse.data);
+      } catch (error) {
+        console.error('Ошибка при запросе данных', error);
+      }
     }
 
     fetchData();
@@ -36,17 +43,17 @@ function App() {
     try {
       // проверяет наличие объекта в корзине
       if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
-        axios.delete(`http://localhost:3001/cart/${obj.id}`); // и удаляет (если нашел)
         setCartItems((prev) =>
           prev.filter((item) => Number(item.id) !== Number(obj.id))
         );
+        axios.delete(`http://localhost:3001/cart/${obj.id}`); // отправляет запрос на удаление (если нашел)
       } else {
         //если не нашел совпадений по айди
         axios.post('http://localhost:3001/cart', obj); //  добавляет в корзину
         setCartItems((prev) => [...prev, obj]); // перед этим добавив предыдущие товары из массива
       }
     } catch (error) {
-      console.log('Не удалось добавить в корзину', error);
+      console.error('Не удалось добавить в корзину', error);
     }
   };
 
@@ -63,15 +70,19 @@ function App() {
         setFavorites((prev) => [...prev, data]);
       }
     } catch (error) {
-      console.log('Не удалось добавить в закладки', error);
+      console.error('Не удалось добавить в закладки', error);
     }
   };
 
   const onRemoveItem = (id) => {
-    axios
-      .delete(`http://localhost:3001/cart/${id}`)
-      .catch((err) => console.log(err));
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+    try {
+      axios
+        .delete(`http://localhost:3001/cart/${id}`)
+        .catch((err) => console.log(err));
+      setCartItems((prev) => prev.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error('Не удалось удалить товар из корзины', error);
+    }
   };
 
   const onChangeSearchInput = (event) => {
@@ -101,13 +112,12 @@ function App() {
       }}
     >
       <div className='wrapper clear'>
-        {cartOpened && (
-          <Drawer
-            items={cartItems}
-            onRemove={onRemoveItem}
-            onClose={() => setCartOpened(false)}
-          />
-        )}
+        <Drawer
+          items={cartItems}
+          onRemove={onRemoveItem}
+          onClose={() => setCartOpened(false)}
+          opened={cartOpened}
+        />
         <div className='container'>
           <Header onCartClick={() => setCartOpened(true)} />
           <Routes>
@@ -128,6 +138,7 @@ function App() {
               }
             />
             <Route path='/favorites' element={<Favorites />} />
+            <Route path='/profile' element={<Profile />} />
           </Routes>
         </div>
       </div>

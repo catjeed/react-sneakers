@@ -1,10 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styles from './Header.module.scss';
+import { useCart } from '../../hooks/useCart';
 
 function Header(props) {
+  const { totalPrice } = useCart();
+
   return (
-    <header className='d-flex justify-between align-center p-40'>
-      <Link  to='/'>
+    <header className={styles.header}>
+      <Link to='/'>
         <div className='d-flex align-center'>
           <img
             width={40}
@@ -28,7 +32,7 @@ function Header(props) {
             src='../images/cart.svg'
             alt='cart'
           />
-          <span>1205 руб.</span>
+          <span>{totalPrice} руб.</span>
         </li>
         <Link to='/favorites'>
           <li className='mr-30 d-flex align-center'>

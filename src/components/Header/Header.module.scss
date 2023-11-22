@@ -1,0 +1,17 @@
+header {
+    position: sticky;
+    z-index: 1;
+    background-color: #fff;
+    top: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    border-bottom: 1px solid #EAEAEA;
+    h3, p {
+        margin: 0;
+    }
+    li {
+        cursor: pointer;
+    }
+    }

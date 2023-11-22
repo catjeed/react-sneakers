@@ -22,9 +22,9 @@ function App() {
       try {
         const [cartResponse, favoritesResponse, itemsResponse] =
           await Promise.all([
-            axios.get('http://localhost:3001/cart'),
-            axios.get('http://localhost:3001/favorites'),
-            axios.get('http://localhost:3001/items'),
+            axios.get('http://localhost:3001/react-sneakers/cart'),
+            axios.get('http://localhost:3001/react-sneakers/favorites'),
+            axios.get('http://localhost:3001/react-sneakers/items'),
           ]);
 
         setIsLoading(false);
@@ -46,10 +46,10 @@ function App() {
         setCartItems((prev) =>
           prev.filter((item) => Number(item.id) !== Number(obj.id))
         );
-        axios.delete(`http://localhost:3001/cart/${obj.id}`); // отправляет запрос на удаление (если нашел)
+        axios.delete(`http://localhost:3001/react-sneakers/cart/${obj.id}`); // отправляет запрос на удаление (если нашел)
       } else {
         //если не нашел совпадений по айди
-        axios.post('http://localhost:3001/cart', obj); //  добавляет в корзину
+        axios.post('http://localhost:3001/react-sneakers/cart', obj); //  добавляет в корзину
         setCartItems((prev) => [...prev, obj]); // перед этим добавив предыдущие товары из массива
       }
     } catch (error) {
@@ -60,11 +60,13 @@ function App() {
   const onAddFavorite = async (obj) => {
     try {
       if (favorites.find((favObj) => Number(favObj.id) === Number(obj.id))) {
-        axios.delete(`http://localhost:3001/favorites/${obj.id}`);
+        axios.delete(
+          `http://localhost:3001/react-sneakers/favorites/${obj.id}`
+        );
         setFavorites((prev) => prev.filter((item) => item.id !== obj.id));
       } else {
         const { data } = await axios.post(
-          'http://localhost:3001/favorites',
+          'http://localhost:3001/react-sneakers/favorites',
           obj
         );
         setFavorites((prev) => [...prev, data]);
@@ -77,7 +79,7 @@ function App() {
   const onRemoveItem = (id) => {
     try {
       axios
-        .delete(`http://localhost:3001/cart/${id}`)
+        .delete(`http://localhost:3001/react-sneakers/cart/${id}`)
         .catch((err) => console.log(err));
       setCartItems((prev) => prev.filter((item) => item.id !== id));
     } catch (error) {

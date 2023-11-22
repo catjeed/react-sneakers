@@ -76,7 +76,11 @@ function App() {
 
   const onAddFavorite = async (obj) => {
     try {
-      if (favorites.find((favObj) => Number(favObj.id) === Number(obj.id))) {
+      if (
+        favorites.find(
+          (favObj) => Number(favObj.parentId) === Number(obj.parentId)
+        )
+      ) {
         axios.delete(
           `https://655e0fb09f1e1093c59a71b9.mockapi.io/favorites/${obj.id}`
         );
@@ -143,7 +147,7 @@ function App() {
           <Header onCartClick={() => setCartOpened(true)} />
           <Routes>
             <Route
-              path="#"
+              path=""
               element={
                 <Home
                   searchValue={searchValue}

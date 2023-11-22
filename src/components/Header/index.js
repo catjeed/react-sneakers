@@ -8,13 +8,13 @@ function Header(props) {
 
   return (
     <header className={styles.header}>
-      <Link to='/'>
+      <Link to=''>
         <div className='d-flex align-center'>
           <img
             width={40}
             height={40}
             className='mr-10'
-            src='../images/logo.svg'
+            src='images/logo.svg'
             alt='logo'
           />
           <div className='headerInfo'>
@@ -29,20 +29,20 @@ function Header(props) {
             height={18}
             width={18}
             className='mr-10'
-            src='../images/cart.svg'
+            src='images/cart.svg'
             alt='cart'
           />
           <span>{totalPrice} руб.</span>
         </li>
-        <Link to='/favorites'>
+        <Link to='favorites'>
           <li className='mr-30 d-flex align-center'>
             <img src='../images/heart.svg' alt='user' className='mr-10' />
             <span>Закладки</span>
           </li>
         </Link>
-        <Link to='/profile'>
+        <Link to='profile'>
           <li className='mr-30 d-flex align-center'>
-            <img src='../images/user.svg' alt='user' className='mr-10' />
+            <img src='images/user.svg' alt='user' className='mr-10' />
             <span>Профиль</span>
           </li>
         </Link>

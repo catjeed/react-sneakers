@@ -7,7 +7,7 @@ function Info({ title, description, imageUrl, imageAlt, imageSize }) {
       <img className="mb-20" height={imageSize} src={imageUrl} alt={imageAlt} />
       <h2>{title}</h2>
       <p className="mt-10 opacity-6 text-center">{description}</p>
-      <Link to="/">
+      <Link to="/react-sneakers/">
         <button className="greenButton">
           <img
             className="arrow"

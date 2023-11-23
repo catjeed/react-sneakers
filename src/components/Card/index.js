@@ -5,16 +5,16 @@ import { CardLoader } from '../CardLoader';
 
 function Card({
   id,
-  parentId,
   title,
   price,
   imageUrl,
+  onRemove,
   onPlus,
   onFavorite,
   favorited = false,
   loading = false,
 }) {
-  const { isItemAdded } = React.useContext(AppContext);
+  const { isItemAdded, isItemLiked } = React.useContext(AppContext);
   const [isFavorite, setisFavorite] = React.useState(favorited);
   const itemObj = { id, parentId: id, title, price, imageUrl };
 
@@ -27,18 +27,32 @@ function Card({
     onFavorite(itemObj);
   };
 
+  const handleRemoveFavorite = () => {
+    onRemove(itemObj);
+  };
+
   return (
     <div className={styles.card}>
       {loading ? (
         <CardLoader />
       ) : (
         <>
+          {onRemove && (
+            <img
+              className={styles.removeBtn}
+              width={32}
+              height={32}
+              onClick={handleRemoveFavorite}
+              src={'/react-sneakers/images/close.svg'}
+              alt="close"
+            />
+          )}
           {onFavorite && (
             <img
               className="button favorite"
               onClick={handleCLickFavorite}
               src={
-                isFavorite
+                isItemLiked(id)
                   ? '/react-sneakers/images/pink-heart.svg'
                   : '/react-sneakers/images/white-heart.svg'
               }

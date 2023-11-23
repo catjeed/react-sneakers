@@ -26,11 +26,21 @@ function Orders() {
       <div className="title-search d-flex justify-between mb-30">
         <h1>Мои покупки</h1>
       </div>
-      <div className="cards">
-        {(isLoading ? [...Array(8)] : orders).map((item, index) => (
-          <Card key={index} loading={isLoading} {...item} />
-        ))}
-      </div>
+      {orders.length > 0 ? (
+        <div className="cards">
+          {orders.map((item, index) => (
+            <Card key={index} loading={isLoading} {...item} />
+          ))}
+        </div>
+      ) : (
+        <Info
+          title={'У вас нет заказов '}
+          description={'Оформите хотя бы один заказ'}
+          imageUrl={'/react-sneakers/images/cryFace.png'}
+          imageAlt={'плачущий смайлик'}
+          imageSize={70}
+        />
+      )}
     </div>
   );
 }

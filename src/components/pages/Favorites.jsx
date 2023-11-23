@@ -4,7 +4,8 @@ import AppContext from '../../context';
 import Info from '../Info';
 
 function Favorites() {
-  const { favorites, onAddFavorite } = React.useContext(AppContext);
+  const { favorites, onAddFavorite, onAddToCart } =
+    React.useContext(AppContext);
   return (
     <div className="content p-40">
       <div className="title-search d-flex justify-between mb-30">
@@ -16,7 +17,8 @@ function Favorites() {
             <Card
               key={index}
               favorited={true}
-              onFavorite={(obj) => onAddFavorite(obj)}
+              onPlus={(obj) => onAddToCart(obj)}
+              onRemove={(obj) => onAddFavorite(obj)}
               {...item}
             />
           ))}

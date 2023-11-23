@@ -4,9 +4,7 @@ import AppContext from '../../context';
 import Info from '../Info';
 
 function Favorites() {
-  const { favorites, onAddFavorite, onAddToCart } =
-    React.useContext(AppContext);
-
+  const { favorites, onAddFavorite } = React.useContext(AppContext);
   return (
     <div className="content p-40">
       <div className="title-search d-flex justify-between mb-30">
@@ -14,12 +12,11 @@ function Favorites() {
       </div>
       {favorites.length > 0 ? (
         <div className="cards">
-          {favorites.map((item) => (
+          {favorites.map((item, index) => (
             <Card
-              key={item.id}
+              key={index}
               favorited={true}
-              onFavorite={(obj) => onAddFavorite(obj)} // добавить в закладки
-              onPlus={(obj) => onAddToCart(obj)} // добавить в корзину
+              onFavorite={(obj) => onAddFavorite(obj)}
               {...item}
             />
           ))}

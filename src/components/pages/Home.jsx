@@ -11,7 +11,7 @@ function Home({
   onAddFavorite,
   isLoading,
 }) {
-  const { isItemAdded, isItemLiked } = React.useContext(AppContext);
+  const { isItemAdded } = React.useContext(AppContext);
   const renderItems = () => {
     const filtredItems = items.filter((item) =>
       item.title.toLowerCase().includes(searchValue)
@@ -26,7 +26,6 @@ function Home({
           onPlus={(obj) => onAddToCart(obj)} // добавить в корзину
           onFavorite={(obj) => onAddFavorite(obj)} // добавить в закладки
           added={isItemAdded(item && item.id)} //проверяет наличие в корзине и ставит плюс (если есть)
-          favorited={isItemLiked(item && item.id)} //проверяет наличие в закладках и ставит лайк (если есть)
           loading={isLoading}
           {...item}
         />
@@ -71,5 +70,4 @@ function Home({
     </div>
   );
 }
-
 export default Home;

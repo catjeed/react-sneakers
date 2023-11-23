@@ -18,7 +18,7 @@ function Favorites() {
               key={index}
               favorited={true}
               onPlus={(obj) => onAddToCart(obj)}
-              onRemove={(obj) => onAddFavorite(obj)}
+              onFavorite={(obj) => onAddFavorite(obj)}
               {...item}
             />
           ))}
